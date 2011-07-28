@@ -1,0 +1,125 @@
+body {
+	margin: 0;
+	background: #FFF;
+}
+
+.map {
+	position: relative;
+	overflow: hidden;
+	width: 100%;
+	height: 100%;
+}
+
+.world {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+.marker {
+	position: absolute;
+}
+
+.marker.dhotson {
+	top: 70.99%;
+	left: 90.2675%;
+}
+
+.marker.lox {
+	top: 29.0138%;
+	left: 15.99498%;
+}
+
+.marker.uk {
+	top: 21.3889%;
+	left: 50%;
+}
+
+.marker.jp {
+	top: 30.1851%;
+	left: 88.8194%;
+}
+
+.marker .inner {
+	position: relative;
+	bottom: 32px;
+	left: -50%;
+}
+
+.marker .bounce {
+	-webkit-animation-name: bounce;
+	-webkit-animation-duration: 0.6s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: ease-out;
+	-webkit-animation-direction: alternate;
+	/* */
+}
+
+.marker .shadow {
+	position: absolute;
+	width: 32px;
+	height: 32px;
+	left: 0;
+	top: 16px;
+	background-image: -webkit-radial-gradient(50% 50%, circle closest-side, rgba(0,0,0,0.6), rgba(0,0,0,0));
+	-webkit-transform-origin: 50% 50%;
+	-webkit-transform: scale3d(2,0.8,1);
+
+	-webkit-animation-name: bounceshadow;
+	-webkit-animation-duration: 0.6s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: ease-out;
+	-webkit-animation-direction: alternate;
+	/* */
+}
+
+.marker .glow {
+	position: absolute;
+	width: 170%;
+	height: 170%;
+	left: -35%;
+	top: -35%;
+	background-image: -webkit-radial-gradient(50% 55%, circle closest-side, rgba(0,0,0,0.6), rgba(0,0,0,0));
+}
+
+.marker .mask {
+	-webkit-mask: url(masktip.png) 50% 100% no-repeat;
+	-webkit-mask-box-image: url(mask.png) 10 10 15 10;
+}
+
+.marker .content {
+	height: 32px;
+	width: 32px;
+}
+
+.marker .content img {
+	width: 100%;
+	height: 100%;
+}
+
+@-webkit-keyframes bounce {
+	0% {
+		-webkit-transform-origin: 50% 100%;
+		-webkit-transform: translate3d(0, 0, 0) scale3d(1.1,0.8,1);
+	}
+	25% {
+		-webkit-transform-origin: 50% 100%;
+		-webkit-transform: translate3d(0, 0, 0) scale3d(1,1,1);
+	}
+	100% {
+		-webkit-transform-origin: 50% 100%;
+		-webkit-transform: translate3d(0, -20px, 0) scale3d(1,1,1);;
+	}
+}
+
+@-webkit-keyframes bounceshadow {
+	0% {
+		opacity: 1;
+	}
+	25% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
