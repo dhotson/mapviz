@@ -3,14 +3,17 @@ Mapviz
 
 Realtime map visualisation for activity on 99designs.com
 
+Status
+----
+
+Still in early development... stay tuned!
 
 Installation
 ----
 
 1. Install Node - https://github.com/joyent/node/wiki/Installation
 2. Install NPM - http://npmjs.org/
-3. `npm install socket.io`
-4. `npm install connect`
+3. `npm install`
 
 Usage
 ----
@@ -22,3 +25,7 @@ Usage
     http://localhost:8000
 
 
+Tests
+----
+
+Coming soon!
