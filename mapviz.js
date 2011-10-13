@@ -15,6 +15,7 @@ server.listen(8000);
 // UDP server listens for events and broadcasts to Socket.IO clients
 var dgram = require("dgram");
 var eventListener = dgram.createSocket("udp4", function (msg, rinfo) {
+	// console.log(msg.toString('utf8'));
 	io.sockets.emit('event', msg.toString('utf8'));
 });
 eventListener.bind(4000);

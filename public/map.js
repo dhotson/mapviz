@@ -1,3 +1,64 @@
+var template =
+	'<div class="marker">'+
+	'  <div class="inner">'+
+	'    <div class="shadow"></div>'+
+	'    <div class="bounce">'+
+	'     <div class="glow"></div>'+
+	'     <div class="mask">'+
+	'       <div class="content"></div>'+
+	'     </div>'+
+	'    </div>'
+	'  </div>'+
+	'</div>';
+
+var login = function(user) {
+	var e = $(Mustache.to_html(template, {}));
+	e.css({
+		top: latitudeAsPercent(user.latitude)+'%',
+		left: longitudeAsPercent(user.longitude)+'%'
+	});
+
+	// console.log([user.latitude, user.longitude, latitudeAsPercent(user.latitude), longtitudeAsPercent(user.longitude)]);
+
+	var img = new Image();
+	img.onload = function(){
+		$('.map').append(e);
+		e.addClass('visible');
+		window.setTimeout(function() {
+			e.addClass('disappearing');
+		}, 2000);
+		window.setTimeout(function() {
+			e.remove();
+		}, 3000);
+	};
+	img.src = user.avatar;
+	// console.log(img.src);
+	e.find('.content').append(img);
+};
+
+var socket = io.connect();
+socket.on('event', function (data) {
+	console.log(JSON.parse(data));
+
+	// Add some variation
+	window.setTimeout(function() {
+		login(JSON.parse(data));
+	}, Math.random() * 30000);
+
+});
+
+
+// --
+
+var latitudeAsPercent = function(lat) {
+	return ((-lat + 90) / 180) * 100;
+};
+
+var longitudeAsPercent = function(long) {
+	return ((long + 180) / 360) * 100;
+};
+
+
 var sampleusers = [
 {userid: 273295, attachmentid: 10813854, avatar: "http://99designs.com/users/273295/avatar/10813854/tinyzoom", latitude: 46.0553000, longitude: 14.5144000},
 {userid: 498258, attachmentid: 6788854, avatar: "http://99designs.com/users/498258/avatar/6788854/tinyzoom", latitude: 52.4167000, longitude: 16.9667000},
@@ -48,66 +109,3 @@ var sampleusers = [
 {userid: 455703, attachmentid: 5647292, avatar: "http://99designs.com/users/455703/avatar/5647292/tinyzoom", latitude: 35.8278000, longitude: -78.6421000},
 {userid: 607867, attachmentid: 9343253, avatar: "http://99designs.com/users/607867/avatar/9343253/tinyzoom", latitude: -6.1744000, longitude: 106.8294000},
 ];
-
-var socket = io.connect();
-socket.on('event', function (data) {
-	console.log(JSON.parse(data));
-});
-
-
-var template =
-	'<div class="marker">'+
-	'  <div class="inner">'+
-	'    <div class="shadow"></div>'+
-	'    <div class="bounce">'+
-	'     <div class="glow"></div>'+
-	'     <div class="mask">'+
-	'       <div class="content"></div>'+
-	'     </div>'+
-	'    </div>'
-	'  </div>'+
-	'</div>';
-
-$(function() {
-	interval = window.setInterval(function() {
-
-		var i =Math.floor(Math.random() * sampleusers.length);
-		var user = sampleusers[i];
-		// user.latitude *= -1;
-
-		var e = $(Mustache.to_html(template, {}));
-		e.css({
-			top: latitudeAsPercent(user.latitude)+'%',
-			left: longtitudeAsPercent(user.longitude)+'%'
-		});
-
-		console.log([user.latitude, user.longitude, latitudeAsPercent(user.latitude), longtitudeAsPercent(user.longitude)]);
-
-		var img = new Image();
-		img.onload = function(){
-			$('.map').append(e);
-			e.addClass('visible');
-			window.setTimeout(function() {
-				e.addClass('disappearing');
-			}, 2000);
-			window.setTimeout(function() {
-				e.remove();
-			}, 3000);
-		};
-		img.src = user.avatar;
-		// console.log(img.src);
-		e.find('.content').append(img);
-	}, 500);
-});
-
-
-// --
-
-var latitudeAsPercent = function(lat) {
-	return ((lat + 90) / 180) * 100;
-};
-
-var longtitudeAsPercent = function(long) {
-	return ((long + 180) / 360) * 100;
-};
-

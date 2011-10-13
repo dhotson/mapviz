@@ -7,7 +7,7 @@ class Mapviz
 		$this->_server = $server;
 	}
 
-	public function login($userlogin, $user, $latitude, $longitude)
+	public function login($user, $latitude, $longitude)
 	{
 		$this->_send(array(
 			'type' => 'login',
@@ -18,7 +18,7 @@ class Mapviz
 		));
 	}
 
-	private function send($data)
+	private function _send($data)
 	{
 		$fp = fsockopen($this->_server, 4000, $errno, $errstr);
 		fwrite($fp, json_encode($data));

@@ -2,7 +2,7 @@
   "name": "mapviz",
   "version": "0.0.1",
   "dependencies": {
-    "socket.io": "0.7.7",
+    "socket.io": "0.8.5",
     "connect": "1.6.0"
   }
 }
