@@ -18,8 +18,10 @@ body {
 
 .marker {
 	position: absolute;
+	opacity: 1;
 }
 
+/*
 .marker.dhotson {
 	top: 70.99%;
 	left: 90.2675%;
@@ -39,6 +41,7 @@ body {
 	top: 30.1851%;
 	left: 88.8194%;
 }
+*/
 
 .marker .inner {
 	position: relative;
@@ -46,14 +49,6 @@ body {
 	left: -50%;
 }
 
-.marker .bounce {
-	-webkit-animation-name: bounce;
-	-webkit-animation-duration: 0.6s;
-	-webkit-animation-iteration-count: infinite;
-	-webkit-animation-timing-function: ease-out;
-	-webkit-animation-direction: alternate;
-	/* */
-}
 
 .marker .shadow {
 	position: absolute;
@@ -65,20 +60,43 @@ body {
 	-webkit-transform-origin: 50% 50%;
 	-webkit-transform: scale3d(2,0.8,1);
 
-	-webkit-animation-name: bounceshadow;
-	-webkit-animation-duration: 0.6s;
-	-webkit-animation-iteration-count: infinite;
-	-webkit-animation-timing-function: ease-out;
-	-webkit-animation-direction: alternate;
 	/* */
+}
+
+.marker.visible {
+	visibility: visible;
+}
+
+.marker.disappearing {
+	-webkit-transform-style: flat;
+
+	-webkit-animation-name: markerdisappear;
+	-webkit-animation-duration: 1.0s;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-timing-function: linear;
+}
+
+
+.marker.visible .bounce {
+	-webkit-animation-name: markerappear;
+	-webkit-animation-duration: 0.4s;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-timing-function: linear;
+}
+
+.marker.visible .shadow {
+	-webkit-animation-name: markerappearshadow;
+	-webkit-animation-duration: 0.4s;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-timing-function: linear;
 }
 
 .marker .glow {
 	position: absolute;
-	width: 170%;
-	height: 170%;
-	left: -35%;
-	top: -35%;
+	width: 54px;
+	height: 54px;
+	left: -11px;
+	top: -11px;
 	background-image: -webkit-radial-gradient(50% 55%, circle closest-side, rgba(0,0,0,0.6), rgba(0,0,0,0));
 }
 
@@ -97,29 +115,48 @@ body {
 	height: 100%;
 }
 
-@-webkit-keyframes bounce {
+@-webkit-keyframes markerappear {
 	0% {
 		-webkit-transform-origin: 50% 100%;
-		-webkit-transform: translate3d(0, 0, 0) scale3d(1.1,0.8,1);
+		-webkit-transform: perspective(100px) rotate3d(1,0,0,80deg) scale3d(0.5,1,1);
 	}
-	25% {
+	70% {
 		-webkit-transform-origin: 50% 100%;
-		-webkit-transform: translate3d(0, 0, 0) scale3d(1,1,1);
+		-webkit-transform: perspective(100px) rotate3d(1,0,0,-30deg) scale3d(1,1,1);
 	}
 	100% {
 		-webkit-transform-origin: 50% 100%;
-		-webkit-transform: translate3d(0, -20px, 0) scale3d(1,1,1);;
+		-webkit-transform: perspective(100px) rotate3d(1,0,0,0) scale3d(1,1,1);
 	}
 }
 
-@-webkit-keyframes bounceshadow {
+@-webkit-keyframes markerdisappear {
 	0% {
+		-webkit-transform-origin: 0% -50%;
+		-webkit-transform: perspective(60px) rotate3d(1,0,0,0) translate3d(0,0,0);
 		opacity: 1;
 	}
-	25% {
+	20% {
+		-webkit-transform-origin: 0% -50%;
+		-webkit-transform: perspective(60px) rotate3d(1,0,0,15deg) translate3d(0,0,-5px);
+		opacity: 0.9;
+	}
+	100% {
+		-webkit-transform-origin: 0% -50%;
+		-webkit-transform: perspective(60px) rotate3d(1,0,0,30deg) translate3d(0,0,-40px);
+		opacity: 0;
+	}
+}
+
+
+@-webkit-keyframes markerappearshadow {
+	0% {
+		opacity: 0;
+	}
+	70% {
 		opacity: 1;
 	}
 	100% {
-		opacity: 0;
+		opacity: 1;
 	}
 }
