@@ -24,6 +24,23 @@ var entryTemplate =
 	'  </div>'+
 	'</div>';
 
+var tweetTemplate =
+	'<div class="marker tweet">'+
+	'  <div class="inner">'+
+	'    <div class="shadow"></div>'+
+	'    <div class="container">'+
+	'     <div class="mask">'+
+	'       <div class="content">'+
+	'         <div class="text">&nbsp;<div class="bird"></div></div>'+
+	'         <div class="screenname"></div>'+
+	'       </div>'+
+	'     </div>'+
+	'     <div class="avatar"></div>'+
+	'    </div>'+
+	'  </div>'+
+	'</div>';
+
+
 // Show a user logging in..
 var login = function(data) {
 	var e = $(Mustache.to_html(loginTemplate, {}));
@@ -93,11 +110,45 @@ var entry = function(data) {
 
 	entry.src = data.entry;
 	avatar.src = data.avatar;
-
-	// console.log(img.src);
-
 };
 
+
+// Show a tweet on screen..
+var tweet = function(data) {
+	var e = $(Mustache.to_html(tweetTemplate, {}));
+
+	e.css({
+		top: latitudeAsPercent(data.latitude)+'%',
+		left: longitudeAsPercent(data.longitude)+'%'
+	});
+
+	var avatar = new Image();
+
+	$(avatar).load(function() {
+		e.find('.avatar').append(avatar);
+		e.find('.screenname').append(
+			'<a rel="nofollow" href="http://twitter.com/'+
+				twttr.txt.htmlEscape(data.tweet.user.screen_name)+'">'+
+				twttr.txt.htmlEscape(data.tweet.user.screen_name)+'</a>');
+
+		e.find('.text').prepend(twttr.txt.autoLink(data.tweet.text));
+
+		$('.map').append(e);
+		e.addClass('visible');
+
+		// fix css positioning..
+		e.find('.inner').css({ bottom: e.find('.inner').height() + 'px' });
+
+		window.setTimeout(function() {
+			e.addClass('disappearing');
+		}, 4000);
+		window.setTimeout(function() {
+			e.remove();
+		}, 6000);
+	});
+
+	avatar.src = data.tweet.user.profile_image_url;
+};
 
 
 
@@ -113,8 +164,9 @@ socket.on('event', function (data) {
 		window.setTimeout(function() {
 			entry(obj);
 		}, Math.random() * 50000);
+	} else if (obj.type === 'tweet') {
+		tweet(obj);
 	}
-
 });
 
 

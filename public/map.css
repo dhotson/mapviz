@@ -1,6 +1,14 @@
 body {
 	margin: 0;
 	background: #FFF;
+	color: #464d5c;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 14px;
+	font-weight: normal;
+	line-height: 1.3;
+	background-color: #222;
+	background-image: -moz-linear-gradient(top, #444444, #000000);
+	background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0, #444444),color-stop(1, #000000));
 }
 
 .map {
@@ -104,7 +112,7 @@ body {
 	height: 90px;
 	left: 0;
 	top: 25px;
-	background-image: -webkit-radial-gradient(50% 50%, circle closest-side, rgba(0,0,0,0.1), rgba(0,0,0,0));
+	background-image: -webkit-radial-gradient(50% 50%, circle closest-side, rgba(0,0,0,0.3), rgba(0,0,0,0));
 	-webkit-transform-origin: 50% 50%;
 	-webkit-transform: scale3d(2,0.8,1);
 }
@@ -161,6 +169,119 @@ body {
 .marker.entry.visible .shadow {
 	-webkit-animation-name: entrymarkerappearshadow;
 	-webkit-animation-duration: 0.4s;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-timing-function: linear;
+}
+
+
+/* tweet marker specific stuff */
+.marker.tweet {
+	z-index: 100;
+}
+
+.marker.tweet a, .marker.tweet a:link, .marker.tweet a:active, .marker.tweet a:visited { /* update 'visited' once the site colour scheme has been toned down a bit */
+	color: #006699;
+	text-decoration: none;
+}
+
+.marker.tweet a:hover {
+	color: #0099CC;
+	text-decoration: underline;
+}
+
+.marker.tweet .inner {
+	position: relative;
+	left: -50%;
+}
+
+.marker.tweet .shadow {
+	position: absolute;
+	width: 130px;
+	height: 130px;
+	left: 65px;
+	bottom: -65px;
+	background-image: -webkit-radial-gradient(50% 50%, circle closest-side, rgba(0,0,0,0.3), rgba(0,0,0,0));
+	-webkit-transform-origin: 50% 50%;
+	-webkit-transform: scale3d(2,0.8,1);
+}
+
+.marker.tweet .container {
+	position: relative;
+}
+
+.marker.tweet .mask {
+	-webkit-mask: url(masktip.png) 50% 100% no-repeat;
+	-webkit-mask-box-image: url(mask.png) 10 10 15 10;
+}
+
+.marker.tweet .content {
+	background: #FFF;
+	width: 260px;
+}
+
+.marker.tweet .avatar {
+	position: absolute;
+	left: -16px;
+	top: -16px;
+	width: 32px;
+	height: 32px;
+	-moz-box-shadow: 0 1px 5px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0 1px 5px rgba(0,0,0,0.5);
+	box-shadow: 0 1px 5px rgba(0,0,0,0.5);
+
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	background: #444;
+}
+
+.marker.tweet .avatar img {
+	width: 32px;
+	height: 32px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.marker.tweet .screenname {
+	position: absolute;
+	left: 25px;
+	top: 7px;
+	font-weight: bolder;
+}
+
+.marker.tweet .text {
+	position: relative;
+	padding: 25px 15px 15px 25px;
+}
+
+.marker.tweet .bird {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	vertical-align: middle;
+	background: url(https://si0.twimg.com/images/dev/cms/intents/bird/bird_black/bird_16_black.png) no-repeat;
+}
+
+.marker.tweet.disappearing {
+	-webkit-transform-style: flat;
+
+	-webkit-animation-name: tweetmarkerdisappear;
+	-webkit-animation-duration: 2.0s;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-timing-function: linear;
+}
+
+.marker.tweet.visible .container {
+	-webkit-animation-name: tweetmarkerappear;
+	-webkit-animation-duration: 0.5s;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-timing-function: linear;
+}
+
+.marker.tweet.visible .shadow {
+	-webkit-animation-name: tweetmarkerappearshadow;
+	-webkit-animation-duration: 0.5s;
 	-webkit-animation-iteration-count: 1;
 	-webkit-animation-timing-function: linear;
 }
@@ -254,6 +375,54 @@ body {
 }
 
 @-webkit-keyframes entrymarkerappearshadow {
+	0% {
+		opacity: 0;
+	}
+	70% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+/* tweet animations */
+
+
+@-webkit-keyframes tweetmarkerappear {
+	0% {
+		-webkit-transform-origin: 50% 100%;
+		-webkit-transform: perspective(500px) rotate3d(1,0,0,80deg) scale3d(0.01,1,1);
+	}
+	70% {
+		-webkit-transform-origin: 50% 100%;
+		-webkit-transform: perspective(500px) rotate3d(1,0,0,-20deg) scale3d(1,1,1);
+	}
+	100% {
+		-webkit-transform-origin: 50% 100%;
+		-webkit-transform: perspective(500px) rotate3d(1,0,0,0) scale3d(1,1,1);
+	}
+}
+
+@-webkit-keyframes tweetmarkerdisappear {
+	0% {
+		-webkit-transform-origin: 0% 0%;
+		-webkit-transform: perspective(500px) rotate3d(1,0,0,0) translate3d(0,0,0);
+		opacity: 1;
+	}
+	20% {
+		-webkit-transform-origin: 0% 0%;
+		-webkit-transform: perspective(500px) rotate3d(1,0,0,15deg) translate3d(0,0,-5px);
+		opacity: 0.9;
+	}
+	100% {
+		-webkit-transform-origin: 0% 0%;
+		-webkit-transform: perspective(500px) rotate3d(1,0,0,30deg) translate3d(0,0,-40px);
+		opacity: 0;
+	}
+}
+
+@-webkit-keyframes tweetmarkerappearshadow {
 	0% {
 		opacity: 0;
 	}

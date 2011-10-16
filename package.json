@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "dependencies": {
     "socket.io": "0.8.5",
-    "connect": "1.6.0"
+    "connect": "1.6.0",
+    "twitter-node": "https://github.com/technoweenie/twitter-node/tarball/master"
   }
 }

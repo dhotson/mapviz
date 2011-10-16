@@ -20,3 +20,29 @@ var eventListener = dgram.createSocket("udp4", function (msg, rinfo) {
 });
 eventListener.bind(4000);
 
+// Listen for live tweets and broadcast to Socket.IO clients
+var TwitterNode = require('twitter-node').TwitterNode;
+
+var twit = new TwitterNode({
+  user: 'twitterusername',
+  password: 'twitterpassword',
+  track: ['99designs', '99 designs'],
+  follow: [14470037]
+});
+
+twit.addListener('tweet', function(tweet) {
+	if (tweet.geo && tweet.geo.coordinates) {
+		var obj = {
+			type: 'tweet',
+			latitude: tweet.geo.coordinates[0],
+			longitude: tweet.geo.coordinates[1],
+			tweet: tweet
+		};
+		io.sockets.emit('event', JSON.stringify(obj));
+  }
+})
+.addListener('end', function(resp) {
+	setTimeout(function() { twit.stream(); }, 60000); // reconnect after 1 min
+});
+
+twit.stream();
